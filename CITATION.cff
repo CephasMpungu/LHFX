@@ -1,0 +1,32 @@
+cff-version: 1.2.0
+title: "LHFX: Linux–Hadoop Forensics Extractor"
+message: "If you use LHFX in research or investigations, please cite this software."
+type: software
+
+authors:
+  - family-names: Mpungu
+    given-names: Cephas Charles
+    orcid: "https://orcid.org/0009-0004-2826-8970"
+
+version: "3.6.3"
+date-released: 2026-03-01
+
+repository-code: "https://github.com/cephas-mpungu/LHFX"
+
+abstract: >
+  LHFX is a NameNode-centric digital forensic support tool for Linux–Hadoop
+  big-data environments. It extracts and organises high-value supporting
+  forensic artefacts from NameNode images to enable reconstruction of
+  distributed storage architecture and system configuration prior to
+  deep forensic analysis.
+
+keywords:
+  - digital forensics
+  - Hadoop
+  - big data
+  - NameNode
+  - Linux forensics
+  - DFIR
+  - distributed systems
+
+license: GPL-3.0
