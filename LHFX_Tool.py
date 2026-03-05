@@ -16,12 +16,12 @@
 # https://www.gnu.org/licenses/gpl-3.0.html
 
 """
-LHFX Linux-Hadoop Forensics Extractor (GUI) — evidence kickstart for Linux-Hadoop NameNodes
+LHFX Linux-Hadoop Forensics Extractor (GUI) — A Digital Forensics kickstarter for Linux-Hadoop Big Data Environments
 Version: 3.6.3
 
 Design goals:
 - Investigator-first UX: wizard-like flow, clear guidance, and copy/paste-ready terminal instructions (beginner-friendly).
-- Read-only operation on forensic images: supports either a user-provided mounted root (manual mount) or tool-assisted auto-mount via loop device (sudo required for auto-mount).
+- Read-only operation on forensic NameNode DD images: supports either a user-provided mounted root (manual mount) or tool-assisted auto-mount via loop device (sudo required for auto-mount).
 - Broad Linux + Hadoop + ecosystem artefact discovery (generic signatures + container storage awareness).
 - Robust error handling: PermissionError/EIO-safe traversal; continues safely when encountering unreadable files/directories.
 - Strong logging: console + log file + run summary + warnings + suggested remediation.
@@ -96,7 +96,7 @@ TARGETS: Dict[str, List[str]] = {
     ]
 }
 
-# Common locations to probe quickly (not exhaustive)
+# Common locations to probe quickly (but not exhaustive)
 COMMON_DIR_HINTS = [
     "etc/hadoop", "etc/hadoop/conf", "etc/hadoop/conf.empty",
     "etc/hdfs", "etc/yarn", "etc/mapred",
@@ -110,7 +110,7 @@ CONTAINER_ROOTS = ["var/lib/docker", "var/lib/containerd", "var/lib/containers"]
 
 HASH_OPTIONS = ["sha256", "sha1", "md5", "sha512", "blake2b", "blake2s", "none"]
 
-# ===== Utility helpers =====
+# Utility helpers
 
 def utc_now_iso() -> str:
     return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
@@ -156,7 +156,7 @@ class SafeRunner:
                 raise ToolError(f"Command failed (rc={cp.returncode}): {' '.join(args)}")
         return cp
 
-# ===== GUI App =====
+# ...GUI Implementation...
 
 class HadoopForensicsGUI:
     def __init__(self, root: tk.Tk):
@@ -179,7 +179,7 @@ class HadoopForensicsGUI:
 
         # State
         self.is_running = False
-        # Cooperative cancel used by Stop button (checked inside hashing/scans)
+        # Cooperative cancel used by the Stop button (checked inside hashing/scans)
         self.stop_event = threading.Event()
         self._msg_q: "queue.Queue[Tuple[str,str]]" = queue.Queue()
         self._loop_dev: Optional[str] = None
@@ -198,7 +198,7 @@ class HadoopForensicsGUI:
         self._start_ui_pump()
         self._preflight_gui_checks()
 
-    # ---------- UI ----------
+    # .....The UI......
 
     def _build_ui(self):
         frame = ttk.Frame(self.root, padding="16")
@@ -250,7 +250,7 @@ class HadoopForensicsGUI:
             variable=self.allow_no_hash
         ).grid(row=1, column=0, columnspan=4, pady=(8, 0), sticky="w")
 
-        # If user ticks "Allow proceed WITHOUT hashing", we treat that as an override:
+        # If a user selects "Allow proceed WITHOUT hashing", this is treated as an override:
         # disable hashing controls and set algorithm to 'none'. This matches investigator expectations.
         def _sync_hash_ui(*_):
             if self.allow_no_hash.get():
